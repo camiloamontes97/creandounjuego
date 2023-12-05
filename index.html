@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigator Game</title>
+</head>
+<body>
+    <canvas id="game-canva" width="565" height="1000" onmousemove="mousedetec(event)" style="cursor: none;"></canvas>
+    
+    <script>
+
+        var canvas = document.getElementById("game-canva")
+        var ctx = canvas.getContext("2d")
+        var animationId;
+        var mousex = 0;
+        var mousey = 0;
+        var enemigos = []
+        var balas= []
+
+       var tareaprogramda = function(){
+        setInterval(() => { enemigos.push({
+            x: Math.floor(Math.random() * (565 - 20 ) + 20 ),
+            y:20})
+    console.log(enemigos)},2000)
+
+        }
+        tareaprogramda()
+
+
+    
+
+
+        var render = function(){ 
+
+            var fondo = new Image();
+            fondo.src = "fondo juego.png" 
+           
+            fondo.onload = ( ) => {
+                ctx.drawImage(fondo,0,0,565,1000)
+            }
+
+            var nave = new Image();
+            nave.src = "nave.png"
+
+            nave.onload = ( ) => {
+                ctx.drawImage(nave,mousex,mousey,50,50)
+            }
+
+            for (let n = 0; n<enemigos.length; n++) {
+                var img = new Image();
+                img.src= "nave enemigo.png"
+                ctx.drawImage(img,enemigos[n].x, enemigos[n].y += 3, 50 , 50) 
+                
+                if(this.enemigos[n].y > 990 ){
+                    this.enemigos.splice(n)
+                }
+                
+            }
+
+
+        }
+
+        var mousedetec = function(e) {
+            console.log(e)
+            mousex = e.clientX
+            mousey = e.clientY
+
+            
+        }
+
+        var gameloop = function() {
+            render()
+            animationId = requestAnimationFrame(() => gameloop ()  )
+
+        }
+       
+        
+
+        gameloop()
+
+
+    </script>
+    
+</body>
+</html>
