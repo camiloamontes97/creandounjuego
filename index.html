@@ -6,7 +6,7 @@
     <title>Navigator Game</title>
 </head>
 <body>
-    <canvas id="game-canva" width="565" height="1000" onmousemove="mousedetec(event)" style="cursor: none;"></canvas>
+    <canvas id="game-canva" width="565" height="1000" onclick="disparo()" onmousemove="mousedetec(event)" style="cursor: none;"></canvas>
     
     <script>
 
@@ -15,8 +15,9 @@
         var animationId;
         var mousex = 0;
         var mousey = 0;
-        var enemigos = []
-        var balas= []
+        var enemigos = [];
+        var balas= [];
+        var contador = 0; 
 
        var tareaprogramda = function(){
         setInterval(() => { enemigos.push({
@@ -58,16 +59,59 @@
                 
             }
 
+            for (let n= 0; n< balas.length; n++) {
+            var img = new Image();
+                img.src= "red-laser-beam-png-png-download-colorfulness-11562893668g2hzexg23n.png"
+                ctx.drawImage(img,balas[n].x, balas[n].y -= 3, 50 , 50) 
+
+                if(balas[n].y < 10){
+                    balas.splice[n,1] 
+                }
+
+                if(enemigos !=undefined && enemigos.length > 0 && balas !=undefined && balas.length > 0) {
+
+                    var indice = enemigos.findIndex ((objeto) => {
+
+                         return balas[n] !=undefined && (objeto.x + 25 ) >= balas[n].x && (objeto.x -25 ) <= balas[n].x 
+                        && (objeto.y + 25 ) >= balas[n].y && (objeto.y -25 ) <= balas[n].y 
+                    })
+
+                    if( indice >= 0){
+                        enemigos.splice(indice,1)
+                        balas.splice(n,1)
+                        
+                    }
+                }
+                // ctx.font = "20px Arial"  
+                // ctx.fillstyles = "black"
+                // ctx.filltext("¡Score!: + 1000, 200 , 50") contador de puntos agregar fuera del canva para mejor entorno grafico 
+            // falta agregar que si me tocan los enemigos pierda se haga una coalision tambien pero seria de enemigos a nave y eso tambien 
+            // almacenarlo en una variable para mostrar que serian las vidas , me toca pierdo una vida si pierdo mas de 3 vidas 
+            // pierdo el juego eso con un condicional que vaya en el render 
+                
+        }
+
 
         }
 
         var mousedetec = function(e) {
-            console.log(e)
+            
             mousex = e.clientX
             mousey = e.clientY
 
             
         }
+
+        var disparo = function() {
+             balas.push({
+            x: mousex ,
+            y: mousey})
+            console.log('balas')
+
+        }
+        
+
+       
 
         var gameloop = function() {
             render()
